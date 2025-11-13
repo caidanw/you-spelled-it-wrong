@@ -66,13 +66,13 @@
           linear-gradient(var(--border) 1px, transparent 1px),
           linear-gradient(90deg, var(--border) 1px, transparent 1px);
         background-size: 50px 50px;
-        opacity: 0.15;
         animation: grid-move 10s linear infinite;
+        scale: 1.15;
       }
 
       @keyframes grid-move {
         0% {
-          transform: translate(0, 0);
+          transform: translate(-50px, -50px);
         }
         100% {
           transform: translate(50px, 50px);
