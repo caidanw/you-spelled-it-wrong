@@ -136,6 +136,11 @@
         border: 1px solid var(--border);
         position: relative;
         font-family: "SF Mono", "Monaco", "Inconsolata", monospace;
+
+        @media (max-width: 600px) {
+          font-size: clamp(1.3rem, 4vw, 1.8rem);
+          padding: 1.2rem 2rem;
+        }
       }
 
       .wrong {
@@ -148,7 +153,6 @@
 
       .right {
         color: var(--accent);
-        font-weight: 600;
         animation: glow 2s ease-in-out infinite;
       }
 
@@ -257,8 +261,8 @@
       /* Floating accent dots */
       .dot {
         position: absolute;
-        width: 4px;
-        height: 4px;
+        width: 8px;
+        height: 8px;
         background: var(--accent);
         border-radius: 50%;
         opacity: 0.3;
@@ -329,9 +333,9 @@
       <h1>You spelled it wrong!</h1>
 
       <div class="spelling-correction">
-        <span class="wrong">caiden</span>
+        <span class="wrong">caiden.dev</span>
         <span class="arrow">→</span>
-        <span class="right">caidan</span>
+        <span class="right">caidan.dev</span>
       </div>
 
       <div class="redirect-message">Redirecting to the correct spelling in</div>
