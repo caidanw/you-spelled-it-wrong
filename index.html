@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="refresh" content="5;url=https://caidan.dev" />
+    <title>It's caidan, not caiden!</title>
+    <style>
+      :root {
+        --color-akira-red: #e12120;
+        --color-white: oklch(92% 0 0);
+        --color-gray-lighter: oklch(82% 0 0);
+        --color-gray-light: oklch(68% 0 0);
+        --color-gray: oklch(54% 0 0);
+        --color-gray-dark: oklch(25% 0 0);
+        --color-gray-darker: oklch(17% 0 0);
+        --color-black: oklch(3% 0 0);
+
+        /* Accents */
+        --accent: var(--color-akira-red);
+        --accent-light: oklch(from var(--accent) calc(l + 7%) c h);
+        --accent-dark: oklch(from var(--accent) calc(l - 14%) c h);
+
+        /* Semantic tokens - dark theme */
+        --text: var(--color-white);
+        --text-muted: var(--color-gray);
+        --text-faded: var(--color-gray-dark);
+        --bg: var(--color-black);
+        --bg-subtle: var(--color-gray-darker);
+        --bg-muted: var(--color-gray-dark);
+        --border: var(--color-gray-dark);
+      }
+
+      @media (color-gamut: p3) {
+        :root {
+          --color-akira-red: oklch(from #e12120 l calc(c + 0.027) h);
+        }
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+          Cantarell, sans-serif;
+        background: var(--bg);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--text);
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Subtle grid background */
+      body::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(var(--border) 1px, transparent 1px),
+          linear-gradient(90deg, var(--border) 1px, transparent 1px);
+        background-size: 50px 50px;
+        opacity: 0.15;
+        animation: grid-move 10s linear infinite;
+      }
+
+      @keyframes grid-move {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(50px, 50px);
+        }
+      }
+
+      .container {
+        text-align: center;
+        padding: 2rem;
+        animation: fadeIn 0.6s ease-out;
+        position: relative;
+        z-index: 1;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .emoji {
+        font-size: 80px;
+        margin-bottom: 2rem;
+        display: inline-block;
+        animation: wobble 2s ease-in-out infinite;
+      }
+
+      @keyframes wobble {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        25% {
+          transform: rotate(-5deg);
+        }
+        75% {
+          transform: rotate(5deg);
+        }
+      }
+
+      h1 {
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        margin-bottom: 2rem;
+        font-weight: 600;
+        color: var(--text);
+        letter-spacing: -0.02em;
+      }
+
+      .spelling-correction {
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        margin: 2rem 0;
+        padding: 1.5rem 2.5rem;
+        border-radius: 12px;
+        display: inline-block;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        position: relative;
+        font-family: "SF Mono", "Monaco", "Inconsolata", monospace;
+      }
+
+      .wrong {
+        text-decoration: line-through;
+        text-decoration-color: var(--accent);
+        text-decoration-thickness: 3px;
+        color: var(--text-muted);
+        opacity: 0.7;
+      }
+
+      .right {
+        color: var(--accent);
+        font-weight: 600;
+        animation: glow 2s ease-in-out infinite;
+      }
+
+      @keyframes glow {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.8;
+        }
+      }
+
+      .arrow {
+        display: inline-block;
+        margin: 0 1rem;
+        color: var(--text-muted);
+        animation: slide 1.5s ease-in-out infinite;
+      }
+
+      @keyframes slide {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        50% {
+          transform: translateX(5px);
+        }
+      }
+
+      .redirect-message {
+        margin-top: 3rem;
+        font-size: clamp(0.9rem, 2vw, 1.1rem);
+        color: var(--text-muted);
+        letter-spacing: 0.01em;
+      }
+
+      .timer {
+        font-size: clamp(4rem, 10vw, 6rem);
+        font-weight: 800;
+        margin: 1.5rem 0;
+        color: var(--accent);
+        font-variant-numeric: tabular-nums;
+        animation: pulse 1s ease-in-out infinite;
+        letter-spacing: -0.05em;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.05);
+          opacity: 0.9;
+        }
+      }
+
+      .progress-bar {
+        width: 200px;
+        max-width: 90vw;
+        height: 3px;
+        background: var(--bg-muted);
+        border-radius: 3px;
+        overflow: hidden;
+        margin: 2rem auto;
+        position: relative;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: var(--accent);
+        border-radius: 3px;
+        animation: progress 5s linear forwards;
+        box-shadow: 0 0 20px var(--accent);
+      }
+
+      @keyframes progress {
+        from {
+          width: 0%;
+        }
+        to {
+          width: 100%;
+        }
+      }
+
+      .hint {
+        font-size: 0.875rem;
+        color: var(--text-faded);
+        margin-top: 3rem;
+        letter-spacing: 0.02em;
+        animation: fadeInLate 1s ease-out 0.5s both;
+      }
+
+      @keyframes fadeInLate {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Floating accent dots */
+      .dot {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: var(--accent);
+        border-radius: 50%;
+        opacity: 0.3;
+        pointer-events: none;
+      }
+
+      .dot:nth-child(1) {
+        top: 20%;
+        left: 10%;
+        animation: float-dot 8s ease-in-out infinite;
+      }
+
+      .dot:nth-child(2) {
+        top: 80%;
+        left: 20%;
+        animation: float-dot 10s ease-in-out infinite 1s;
+      }
+
+      .dot:nth-child(3) {
+        top: 30%;
+        right: 15%;
+        animation: float-dot 12s ease-in-out infinite 2s;
+      }
+
+      .dot:nth-child(4) {
+        bottom: 20%;
+        right: 10%;
+        animation: float-dot 9s ease-in-out infinite 0.5s;
+      }
+
+      .dot:nth-child(5) {
+        top: 50%;
+        left: 50%;
+        animation: float-dot 11s ease-in-out infinite 1.5s;
+      }
+
+      @keyframes float-dot {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        33% {
+          transform: translate(30px, -30px) scale(1.5);
+        }
+        66% {
+          transform: translate(-20px, 20px) scale(0.8);
+        }
+      }
+
+      /* Clean hover effect for the spelling correction */
+      .spelling-correction:hover {
+        transform: scale(1.02);
+        transition: transform 0.3s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Floating accent dots -->
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+
+    <div class="container">
+      <div class="emoji">😅</div>
+
+      <h1>You spelled it wrong!</h1>
+
+      <div class="spelling-correction">
+        <span class="wrong">caiden</span>
+        <span class="arrow">→</span>
+        <span class="right">caidan</span>
+      </div>
+
+      <div class="redirect-message">Redirecting to the correct spelling in</div>
+
+      <div class="timer" id="countdown">5</div>
+
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+
+      <div class="hint">Remember: it's A-N, not E-N</div>
+    </div>
+
+    <script>
+      // Countdown timer
+      let seconds = 5;
+      const countdownElement = document.getElementById("countdown");
+
+      const countdown = setInterval(() => {
+        seconds--;
+        countdownElement.textContent = seconds;
+
+        if (seconds <= 0) {
+          clearInterval(countdown);
+          countdownElement.textContent = "0";
+          // Redirect to the correct domain
+          window.location.href = "https://caidan.dev";
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>
