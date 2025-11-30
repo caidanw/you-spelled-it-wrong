@@ -27,8 +27,10 @@
         --accent-light: oklch(from var(--accent) calc(l + 7%) c h);
         --accent-dark: oklch(from var(--accent) calc(l - 14%) c h);
 
-        --git-add: var(--color-triadic-green);
-        --git-del: var(--color-akira-red);
+        --git-add-bg: oklch(from var(--color-triadic-green) calc(l - 0.6) c h);
+        --git-del-bg: oklch(from var(--color-akira-red) calc(l - 0.5) c h);
+        --git-add-fg: oklch(from var(--color-triadic-green) calc(l - 0.45) c h);
+        --git-del-fg: oklch(from var(--color-akira-red) calc(l - 0.35) c h);
 
         /* Semantic tokens - dark theme */
         --text: var(--color-white);
@@ -142,47 +144,63 @@
       .spelling-correction {
         font-size: clamp(1.5rem, 4vw, 2.5rem);
         margin: 2rem 0;
-        padding: 1.5rem 2.5rem;
-        border-radius: 12px;
+        padding: 0;
+        border-radius: 4px;
         display: inline-block;
         background: var(--bg-subtle);
-        border: 1px solid var(--border);
         position: relative;
-        font-family: "SF Mono", "Monaco", "Inconsolata", monospace;
+        font-family: "Server Mono", monospace;
+        text-align: left;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 
         @media (max-width: 600px) {
           font-size: clamp(1.2rem, 4vw, 1.8rem);
-          padding: 1.2rem 1.5rem;
         }
       }
 
       .wrong {
-        /* text-decoration: line-through; */
-        /* text-decoration-color: var(--accent); */
-        /* text-decoration-thickness: 3px; */
-        color: var(--text-muted);
-        opacity: 0.7;
+        color: var(--text);
+        display: block;
+        background: var(--git-del-bg);
+        padding: 0.5rem 1rem;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        overflow: hidden;
+
+        &::before {
+          content: "- ";
+          opacity: 0.7;
+        }
+
+        .diff-char {
+          background: var(--git-del-fg);
+        }
       }
 
       .right {
-        color: var(--accent);
-        animation: glow 2s ease-in-out infinite;
+        color: var(--text);
+        display: block;
+        background: var(--git-add-bg);
+        padding: 0.5rem 1rem;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        overflow: hidden;
+
+        &::before {
+          content: "+ ";
+          opacity: 0.7;
+        }
+
+        .diff-char {
+          background: var(--git-add-fg);
+        }
       }
 
-      @keyframes glow {
-        0%,
-        100% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 0.8;
-        }
-      }
-
-      .arrow {
-        display: inline-block;
-        color: var(--text-muted);
-        animation: slide 1.5s ease-in-out infinite;
+      .diff-char {
+        color: var(--text);
+        font-weight: 500;
+        padding: 0.5em 0;
       }
 
       @keyframes slide {
@@ -346,9 +364,8 @@
       <h1>You spelled it wrong!</h1>
 
       <div class="spelling-correction">
-        <span class="wrong">caiden.dev</span>
-        <span class="arrow">→</span>
-        <span class="right">caidan.dev</span>
+        <span class="wrong">caid<span class="diff-char">e</span>n.dev</span>
+        <span class="right">caid<span class="diff-char">a</span>n.dev</span>
       </div>
 
       <div class="redirect-message">Redirecting to the correct spelling in</div>
